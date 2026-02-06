@@ -94,3 +94,18 @@ services:
     depends_on:
       - nats-server
     restart: unless-stopped
+
+  auth:
+    build: ./auth
+    command: npm run start:dev
+    ports:
+      - 3010:3010
+    volumes:
+      - ./auth/src:/usr/src/app/src
+    environment:
+      - PORT=${PORT_AUTH}
+      - NATS_SERVER=${NATS_SERVER}
+      - MONGO_DB=${MONGO_DB}
+    depends_on:
+      - nats-server
+    restart: unless-stopped
